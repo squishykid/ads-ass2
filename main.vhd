@@ -21,11 +21,8 @@ architecture Behavioral of main is
 begin
 	
 	mux: entity work.muxSSD port map (Clock, GreyValue, SevenSegmentElement, SevenSegmentSelect);
-																							--counterEnable here, but it's currently fucked
-	grey: entity work.greyCounter port map (stateClock, ResetSignal, StartSignal, GreyValue, LED);
-
+	grey: entity work.greyCounter port map (stateClock, ResetSignal, counterEnable, GreyValue, LED);
 	stateClockDivider: entity work.stateClockDivider port map (Clock, stateClock);
-
-	switchControl: entity work.switchControl port map (StartSignal, StopSignal, ResumeSignal, ResetSignal, counterEnable);
+	switchControl: entity work.switchControl port map (Clock, StartSignal, StopSignal, ResumeSignal, ResetSignal, counterEnable);
 
 end Behavioral;

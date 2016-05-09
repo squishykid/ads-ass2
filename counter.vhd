@@ -6,15 +6,19 @@ entity greyCounter is
     Port ( clk : in  STD_LOGIC;
            rst : in  STD_LOGIC;
            en : in  STD_LOGIC;
-           data : out  STD_LOGIC_VECTOR (4 downto 0) := "11111";
+           data : out  STD_LOGIC_VECTOR (4 downto 0) := "11110";
 			  done : out  STD_LOGIC := '0');
 end greyCounter;
 
 architecture Behavioral of greyCounter is
-	signal temp : std_logic_vector(4 downto 0) := "11111";
+	signal temp : std_logic_vector(4 downto 0) := "11110";
 begin
 
-data <= temp;
+data(4) <= temp(4);
+data(3) <= temp(4) XOR temp (3);
+data(2) <= temp(3) XOR temp (2);
+data(1) <= temp(2) XOR temp (1);
+data(0) <= temp(1) XOR temp (0);
 
 process(temp)
 begin
@@ -28,7 +32,7 @@ end process;
 process (clk, rst)
 begin
 	if rst = '1' then
-		temp <= "11111";
+		temp <= "11110";
 	elsif rising_edge(clk) then
 		if en = '1' then
 			if temp /= "00000" then

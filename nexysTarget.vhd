@@ -34,26 +34,12 @@ SSEG_AN_OFF <= '1';
 
 --We connect the main module to the switch signals
 -- and the other physical signals
-main: entity work.main port map (clk,
-											startSW,
-											stopSW,
-											resumeSW,
-											resetSW,
-											RedLED,
-											SSEG_AN,
-											SSEG_CA);
+main: entity work.main port map (clk, startSW, stopSW, resumeSW, resetSW, RedLED, SSEG_AN, SSEG_CA);
 
 --Reads the values coming in from the virtual lab hardware
 -- and assigns the correct switch values
-interface: entity work.labSwitchInterface port map (EppAstb,
-																	 EppDstb,
-																	 EppWr,
-																	 EppDB,
-																	 EppWait,
-																	 startSW,
-																	 stopSW,
-																	 resumeSW,
-																	 resetSW);
+interface: entity work.labSwitchInterface port map (
+EppAstb, EppDstb, EppWr, EppDB, EppWait, startSW, stopSW, resumeSW, resetSW);
 
 end Behavioral;
 

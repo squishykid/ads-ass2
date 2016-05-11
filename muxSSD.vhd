@@ -3,6 +3,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
+--Takes a clock and numerical value in BCD as inputs
+-- and outputs 
 entity muxSSD is
     Port ( clk : in  STD_LOGIC;
 			  value : in  STD_LOGIC_VECTOR(4 downto 0);

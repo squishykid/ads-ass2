@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+--State machine which decides whether to enable the counter.
 entity switchControl is
     Port ( clk : in  STD_LOGIC;
 			  startSW : in  STD_LOGIC;
@@ -16,7 +17,7 @@ architecture Behavioral of switchControl is
 	signal next_state : state_type := reset;
 begin
 	
-	--Enable high when in the running
+	--Enable high when in the running.
 	-- state. Else low.
 	process(current_state)
 	begin
@@ -27,6 +28,7 @@ begin
 		end if;
 	end process;
 
+	--Move to the next state on the rising edge of the clock.
 	process(clk, resetSW)
 	begin
 		if resetSW = '1' then
@@ -36,6 +38,7 @@ begin
 		end if;
 	end process;
 	
+	--Decide on the next state.
 	process(startSW, stopSW, resumeSW, resetSW, current_state)
 	begin
 		if resetSW = '1' then

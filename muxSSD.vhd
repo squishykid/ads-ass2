@@ -13,14 +13,21 @@ entity muxSSD is
 end muxSSD;
 
 architecture Behavioral of muxSSD is
+	--Divide the clock by 256, otherwise the display contrast is low.
 	signal clkdiv : std_logic_vector(7 downto 0) := "00000000";
+	--Value to display across all displays, as an unsigned integer.
+	--This type allows other operations, like "mod".
 	signal valueInt : unsigned(4 downto 0) := "00000";
+	--Value to display on the currently driven seven segment display.
 	signal decimal : std_logic_vector(4 downto 0) := "00000";
+	--The current anode to drive.
 	signal segmentIndex : integer range 0 to 2 := 0;
 begin
 
+	--Convert the incoming value into an unsigned integer.
 	valueInt <= unsigned(value);
 	
+	--Divide the clock into something more manageable.
 	process (clk)
 	begin
 		if rising_edge(clk) then
@@ -37,6 +44,10 @@ begin
 		end if;
 	end process;
 
+	--Set the number to display on a particular display.
+	--I.e. when "valueInt" is 12 and "segmentIndex" is 0,
+	-- the number is 2.
+	--Activate the anodes for the current "segmentIndex".
 	process(segmentIndex, valueInt)
 	begin
 		case segmentIndex is
@@ -52,7 +63,8 @@ begin
 		end case;
 	end process;
 
+	--In: Decimal number to display
+	--Out: The combination of cathodes to activate on the display.
 	binary: entity work.binaryToSSD port map (decimal(3 downto 0), ssd);
 
 end Behavioral;
-
